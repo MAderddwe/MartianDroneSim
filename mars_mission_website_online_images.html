@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<!--
+Online image src links used in this page:
+1. Hero background: https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=1600&q=80
+2. NASA logo: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/512px-NASA_logo.svg.png
+3. Ingenuity helicopter: https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA23720.jpg
+4. Jezero crater surface: https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00213/ids/edr/browse/zcam/ZL0_0213_0685848426_613EBY_N0072050ZCAM08248_0340LMJ01.png
+5. Optional aerial Mars image: https://mars.nasa.gov/system/resources/detail_files/25846_PIA24593-web.jpg
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Drone Simulation - Mars Mission</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Courier New", Courier, monospace;
+            background: #160d0a;
+            color: #f7e9dc;
+            line-height: 1.6;
+        }
+
+        header {
+            min-height: 90vh;
+            background:
+                linear-gradient(rgba(20, 10, 8, 0.7), rgba(20, 10, 8, 0.85)),
+                url("https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .logo {
+            width: 90px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #ff6b35;
+            text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffd6b0;
+            margin-bottom: 25px;
+        }
+
+        .hero-button {
+            display: inline-block;
+            padding: 14px 28px;
+            background: #ff4500;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+
+        .hero-button:hover {
+            background: #ff784f;
+            transform: scale(1.05);
+        }
+
+        nav {
+            background: #2b1a16;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #8b4513;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav a {
+            color: #ffd6b0;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ff6b35;
+        }
+
+        section {
+            max-width: 1100px;
+            margin: auto;
+            padding: 60px 25px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            color: #ff6b35;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #d2691e;
+            padding-bottom: 10px;
+        }
+
+        .section-text {
+            font-size: 1rem;
+            color: #f2e3d5;
+            margin-bottom: 25px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: #321a12;
+            border: 1px solid #d2691e;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(210, 105, 30, 0.18);
+            transition: 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 0 28px rgba(255, 107, 53, 0.35);
+        }
+
+        .card h3 {
+            color: #ffb347;
+            margin-bottom: 10px;
+        }
+
+        .mission-image {
+            width: 100%;
+            border-radius: 14px;
+            border: 2px solid #8b4513;
+            margin-top: 25px;
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .code-block {
+            background: #0d0806;
+            border: 1px solid #ff6b35;
+            color: #ffdab9;
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow-x: auto;
+        }
+
+        .timeline {
+            margin-top: 25px;
+            border-left: 3px solid #ff6b35;
+            padding-left: 25px;
+        }
+
+        .timeline-item {
+            margin-bottom: 25px;
+        }
+
+        .timeline-item h3 {
+            color: #ffb347;
+        }
+
+        .status-panel {
+            background: #0e0806;
+            border: 2px solid #ff4500;
+            padding: 25px;
+            border-radius: 14px;
+            margin-top: 25px;
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.25);
+        }
+
+        .status {
+            color: #00ff9d;
+            font-weight: bold;
+        }
+
+
+
+        .image-credit {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #ffd6b0;
+        }
+
+        .image-credit a,
+        .source-card a {
+            color: #ffb347;
+            font-weight: bold;
+            text-decoration: none;
+            border-bottom: 1px solid #ffb347;
+        }
+
+        .image-credit a:hover,
+        .source-card a:hover {
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        .source-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .source-card {
+            background: #0e0806;
+            border: 1px solid #d2691e;
+            border-radius: 14px;
+            padding: 20px;
+            overflow-wrap: anywhere;
+        }
+
+        .source-card h3 {
+            color: #ffb347;
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            background: #2b1a16;
+            color: #ffd6b0;
+            padding: 25px;
+            border-top: 2px solid #8b4513;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.4rem;
+            }
+
+            .split {
+                grid-template-columns: 1fr;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="hero-content">
+            <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/512px-NASA_logo.svg.png" alt="NASA Logo">
+            <h1>MARS MISSION: INGENUITY SIM</h1>
+            <p class="subtitle">
+                A hackathon project simulating autonomous drone exploration, Martian flight physics,
+                obstacle detection, and command-based mission planning.
+            </p>
+            <a href="#overview" class="hero-button">Explore the Mission</a>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#features">Features</a>
+        <a href="#tech">Tech Stack</a>
+        <a href="#telemetry">Telemetry</a>
+        <a href="#image-links">Images</a>
+    </nav>
+
+    <section id="overview">
+        <h2 class="section-title">Mission Overview</h2>
+
+        <div class="split">
+            <div>
+                <p class="section-text">
+                    The Mars Drone Simulation is a hackathon project inspired by NASA’s Ingenuity helicopter.
+                    The goal of the project is to simulate how a drone could scout Mars terrain, avoid obstacles,
+                    collect telemetry, and follow autonomous flight commands in a low-atmosphere environment.
+                </p>
+
+                <p class="section-text">
+                    This project combines space exploration, programming, physics simulation, and mission-control
+                    style design into one interactive experience.
+                </p>
+            </div>
+
+            <div>
+                <img class="mission-image" src="https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA23720.jpg" alt="Mars Ingenuity Helicopter">
+                <p class="image-credit">Image: NASA/JPL-Caltech | <a href="https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA23720.jpg" target="_blank" rel="noopener">Open direct image</a> | <a href="https://www.jpl.nasa.gov/images/pia23720-ingenuity-mars-helicopter-on-the-martian-surface-artists-concept/" target="_blank" rel="noopener">Source page</a></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="problem">
+        <h2 class="section-title">The Problem</h2>
+        <p class="section-text">
+            Mars exploration is difficult because drones must operate in a thin atmosphere, navigate unknown terrain,
+            handle communication delays, and make decisions without constant human control. Our project explores how
+            autonomous drone logic could help future missions scout areas that rovers cannot easily reach.
+        </p>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Thin Atmosphere</h3>
+                <p>Mars has a very low-density atmosphere, making flight much harder than on Earth.</p>
+            </div>
+
+            <div class="card">
+                <h3>Communication Delay</h3>
+                <p>Commands from Earth cannot instantly reach Mars, so drones need autonomous decision-making.</p>
+            </div>
+
+            <div class="card">
+                <h3>Unknown Terrain</h3>
+                <p>The drone must identify obstacles, dangerous surfaces, and possible scouting paths.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="solution">
+        <h2 class="section-title">Our Solution</h2>
+        <p class="section-text">
+            Our simulation models a drone mission on Mars using command queues, environmental physics,
+            and telemetry tracking. The drone follows programmed flight paths while responding to simulated
+            Martian wind drift, obstacles, and mission objectives.
+        </p>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>Phase 1: Mission Setup</h3>
+                <p>The user starts the simulation and loads the Mars environment.</p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>Phase 2: Command Queue</h3>
+                <p>The drone receives planned movement commands such as forward, rotate, hover, and land.</p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>Phase 3: Autonomous Flight</h3>
+                <p>The drone executes commands while responding to wind, limited lift, and obstacles.</p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>Phase 4: Telemetry Review</h3>
+                <p>The system displays status, location, battery level, mission progress, and flight results.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="features">
+        <h2 class="section-title">Key Features</h2>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Autonomous Navigation</h3>
+                <p>The drone follows programmed instructions and simulates independent mission behavior.</p>
+            </div>
+
+            <div class="card">
+                <h3>Wind Drift Simulation</h3>
+                <p>Martian wind patterns affect drone movement and create a more realistic flight challenge.</p>
+            </div>
+
+            <div class="card">
+                <h3>Obstacle Detection</h3>
+                <p>The environment includes rocks, craters, and surface hazards that the drone must avoid.</p>
+            </div>
+
+            <div class="card">
+                <h3>Telemetry Dashboard</h3>
+                <p>The simulation displays mission status, drone location, system health, and flight data.</p>
+            </div>
+
+            <div class="card">
+                <h3>Physics-Based Flight</h3>
+                <p>The project includes concepts like lift, drag, propulsion, and low-atmosphere flight.</p>
+            </div>
+
+            <div class="card">
+                <h3>Mission-Control Theme</h3>
+                <p>The interface is designed to feel like a real NASA-inspired control system.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tech">
+        <h2 class="section-title">Technology Used</h2>
+
+        <p class="section-text">
+            The simulation is designed to run as a Python-based project with a web page explaining the mission,
+            design choices, features, and hackathon purpose.
+        </p>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Python</h3>
+                <p>Used to build the main drone simulation logic and command system.</p>
+            </div>
+
+            <div class="card">
+                <h3>Pillow</h3>
+                <p>Used for graphics, images, and visual rendering in the simulation.</p>
+            </div>
+
+            <div class="card">
+                <h3>HTML & CSS</h3>
+                <p>Used to create the project website and explain the hackathon concept.</p>
+            </div>
+
+            <div class="card">
+                <h3>Physics Logic</h3>
+                <p>Used to represent lift, movement, atmosphere, and environmental conditions.</p>
+            </div>
+        </div>
+
+        <div class="code-block">
+            python drone_sim.py
+        </div>
+    </section>
+
+    <section id="telemetry">
+        <h2 class="section-title">Telemetry Status</h2>
+
+        <div class="status-panel">
+            <p><strong>System:</strong> <span class="status">ONLINE</span></p>
+            <p><strong>Mission:</strong> Jezero Crater Scouting Simulation</p>
+            <p><strong>Drone:</strong> Ingenuity-Inspired Scout Unit</p>
+            <p><strong>Atmosphere:</strong> 1% Earth Density</p>
+            <p><strong>Propulsion:</strong> High-RPM Blade Simulation</p>
+            <p><strong>Autonomy:</strong> Command Queue Enabled</p>
+            <p><strong>Environment:</strong> Wind Drift and Surface Obstacles Active</p>
+        </div>
+
+        <img class="mission-image" src="https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00213/ids/edr/browse/zcam/ZL0_0213_0685848426_613EBY_N0072050ZCAM08248_0340LMJ01.png" alt="Mars Surface">
+        <p class="image-credit">Image: NASA/JPL-Caltech/ASU | <a href="https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00213/ids/edr/browse/zcam/ZL0_0213_0685848426_613EBY_N0072050ZCAM08248_0340LMJ01.png" target="_blank" rel="noopener">Open direct image</a> | <a href="https://commons.wikimedia.org/wiki/File:Jezero_crater_on_Mars,_sol_213_of_Perseverance_mission.png" target="_blank" rel="noopener">Source page</a></p>
+    </section>
+
+
+    <section id="image-links">
+        <h2 class="section-title">Online Image Links</h2>
+        <p class="section-text">
+            These are the online image sources used by this website. The images are linked directly in the HTML using full web URLs, so the site can load them without local image files.
+        </p>
+
+        <div class="source-grid">
+            <div class="source-card">
+                <h3>Hero Background</h3>
+                <p>Mars planet background image used in the top header.</p>
+                <p><a href="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=1600&q=80" target="_blank" rel="noopener">Open direct image</a></p>
+            </div>
+
+            <div class="source-card">
+                <h3>NASA Logo</h3>
+                <p>NASA logo used in the mission header.</p>
+                <p><a href="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/512px-NASA_logo.svg.png" target="_blank" rel="noopener">Open direct image</a></p>
+            </div>
+
+            <div class="source-card">
+                <h3>Ingenuity Helicopter</h3>
+                <p>NASA/JPL-Caltech artist concept of Ingenuity on Mars.</p>
+                <p><a href="https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA23720.jpg" target="_blank" rel="noopener">Open direct image</a></p>
+                <p><a href="https://www.jpl.nasa.gov/images/pia23720-ingenuity-mars-helicopter-on-the-martian-surface-artists-concept/" target="_blank" rel="noopener">Open source page</a></p>
+            </div>
+
+            <div class="source-card">
+                <h3>Jezero Crater Surface</h3>
+                <p>NASA Perseverance rover image from Jezero Crater.</p>
+                <p><a href="https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00213/ids/edr/browse/zcam/ZL0_0213_0685848426_613EBY_N0072050ZCAM08248_0340LMJ01.png" target="_blank" rel="noopener">Open direct image</a></p>
+                <p><a href="https://commons.wikimedia.org/wiki/File:Jezero_crater_on_Mars,_sol_213_of_Perseverance_mission.png" target="_blank" rel="noopener">Open source page</a></p>
+            </div>
+
+            <div class="source-card">
+                <h3>Aerial Mars Image</h3>
+                <p>First aerial color image of Mars by Ingenuity. Optional image for future sections.</p>
+                <p><a href="https://mars.nasa.gov/system/resources/detail_files/25846_PIA24593-web.jpg" target="_blank" rel="noopener">Open direct image</a></p>
+                <p><a href="https://commons.wikimedia.org/wiki/File:1st_aerial_image_on_mars_taken_by_Ingenuity.jpg" target="_blank" rel="noopener">Open source page</a></p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">Hackathon Impact</h2>
+        <p class="section-text">
+            This project demonstrates how computer science, cybersecurity-style systems thinking,
+            aerospace concepts, and creative design can come together to solve a real-world exploration challenge.
+            By creating this simulation, our team explored how autonomous systems can support future space missions
+            where human control is limited by distance, time delay, and environmental risk.
+        </p>
+    </section>
+
+    <footer>
+        <p>Created for Hackathon Project | Mars Drone Simulation | Mission Control Interface</p>
+    </footer>
+
+</body>
+</html>
